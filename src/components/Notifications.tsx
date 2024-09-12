@@ -1,6 +1,5 @@
 import { useState } from "react";
 import useCanvasWallet from "./CanvasWalletAdapter";
-import { CanvasClient } from '@dscvr-one/canvas-client-sdk';
 
 export default function Notifications() {
   const [menu, showMenu] = useState(false);
