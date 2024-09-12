@@ -1,21 +1,21 @@
 
 
-const fetchProposals = async () => {
+// const fetchProposals = async () => {
 
-}
+// }
 
-const castVote = async () => {
+// const castVote = async () => {
 
-}
+// }
 
-const updateProposals = async () => {
+// const updateProposals = async () => {
 
-}
+// }
 
-const fetchPersonalProposals = async () => {
+// const fetchPersonalProposals = async () => {
 
-}
+// }
 
-const fetchVotingAnalytics = async () => {
+// const fetchVotingAnalytics = async () => {
 
-}
+// }

@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react";
-import useCanvasWallet from "./CanvasWalletAdapter";
+// import { useState } from "react";
 import ItemDisplay from "./ItemDisplay";
 import { Link } from "react-router-dom";
 
 export default function Main() {
-  const [notify, setNotify] = useState({
-    message: '',
-    type: ''
-  })
+  // const [notify, setNotify] = useState({
+  //   message: '',
+  //   type: ''
+  // })
 
   return (
 
     <main className="pt-[3rem] pb-[5rem] text-white">
       <div className="flex flex-row justify-center items-center">
 
-        {notify.type !== '' &&
+        {/* {notify.type !== '' &&
           <div className={`${notify.type == "success" ? 'bg-green-500' : "bg-red-500"} w-[400px] shadow rounded-lg  p-3 absolute top-20`}>
             <p className='text-center'>{notify.message}</p>
           </div>
-        }
+        } */}
       </div>
 
       <div className="mb-3 flex flex-col justify-center leading-tight items-center space-y-1">
