@@ -35,6 +35,7 @@ interface WalletContextType {
     publicKey: PublicKey;
     content: { id: string; portalId: string; portalName: string; } | undefined;
     update: any;
+    canvasClient: CanvasClient;
     makeRefetch: () => void;
 }
 
@@ -93,7 +94,6 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
                 console.log("CanvasClient is ready");
 
                 const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
-
                 if (response?.untrusted?.success) {
                     setWalletAddress(response.untrusted.address);
                     localStorage.setItem('walletAddress', response.untrusted.address);
@@ -293,6 +293,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const value: WalletContextType = {
+        canvasClient,
         connectWallet,
         walletAddress,
         walletIcon,

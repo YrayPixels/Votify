@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { isIframe } from "./canvas-adapter";
 import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
 import { CanvasWalletProvider } from "./components/CanvasWalletAdapter";
-import MarketPlacePage from "./pages/MarketPlace";
+import ProposalsPage from "./pages/ProposalsPage";
 
 export default function App() {
   const iframe = isIframe();
@@ -40,12 +40,12 @@ export default function App() {
     <div ref={containerRef} style={{
       margin: '0 auto',
       width: '100%'
-    }} className="bg-[#42a3ba]">
+    }} className="bg-[#1c2936]">
       <BrowserRouter>
         <CanvasWalletProvider>
           <Routes>
             <Route index element={<Homepage />} />
-            <Route path="market-place" element={<MarketPlacePage />} />
+            <Route path="market-place" element={<ProposalsPage />} />
             <Route path="my-nfts" element={<Checkout />} />
             <Route path="iteminfo" element={<ItemInfos />} />
             <Route path="mycart" element={<MyCart />} />

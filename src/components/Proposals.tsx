@@ -7,7 +7,7 @@ import NftDetails from "./NftDetails";
 import UnlistNFT from "./UnlistNFT";
 import { Helius } from "helius-sdk";
 
-export default function MarketPlace() {
+export default function Proposals() {
   const [notify, setNotify] = useState({
     message: '',
     type: ''

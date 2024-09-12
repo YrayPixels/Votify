@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useCanvasWallet from "./CanvasWalletAdapter";
-
+import { CanvasClient } from '@dscvr-one/canvas-client-sdk';
 
 export default function Notifications() {
   const [menu, showMenu] = useState(false);
@@ -14,18 +14,29 @@ export default function Notifications() {
       console.log(error);
     }
   }
+
+
+
+  // async function copyClip(text: string) {
+
+  //     await CanvasClient?.ready();
+  //     console.log("CanvasClient is ready");
+  //     let textCopied = await CanvasClient?.copyToClipboard(text)
+  //     console.log(textCopied);
+
+  // }
   return (
     <div className='flex relative items-center'>
       <button onClick={() => {
-        !wallet.walletAddress ?
+        wallet.walletAddress ?
           showMenu(true) : connectWallet();
-      }} className="text-white w-fit p-2 rounded-xl text-[1.5rem] font-semibold shadow hover:bg-[#e53d75]/90 bg-[#e53d75]">
+      }} className="text-[#73dca5] w-fit p-2 rounded-xl text-[1.5rem] font-semibold border border-[#73dca5]">
         {wallet.walletAddress ? `${wallet.walletAddress.slice(0, 4)}...${wallet.walletAddress.slice(-4)}` : "Connect Wallet"}
       </button>
       {menu &&
         <div className=" absolute bg-[#e53d75] p-4  rounded-xl font-bold  text-white top-[40px]">
           <p className="cursor-pointer" onClick={() => {
-            showMenu(false);
+
           }} >
             Copy address
           </p>

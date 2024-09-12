@@ -1,40 +1,65 @@
-
-import { Link } from "react-router-dom";
-
-//fetch item in listing
-
-//Check the Wallet for the nfts on the wallet and display , then add a button to list the items.
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 export default function ItemDisplay() {
 
 
-  const itemsDisplayed = [1, 2, 3, 4];
+  function createData(
+    title: string,
+    voted: string,
+    status: string,
+    results: number[],
+  ) {
+    return { title, voted, status, results };
+  }
+
+  const rows = [
+    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
+    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
+    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
+    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
+    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
+  ];
+
 
   return (
-    <section className="grid grid-cols-4 gap-4 mt-[3rem]">
 
+    <div className='text-[14px] '>
+      <div className='font-bold text-[14px]'>Proposals</div>
+      <TableContainer component={Paper} color="black" >
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow >
+              <TableCell sx={{ fontSize: 12 }}>Title</TableCell>
+              <TableCell sx={{ fontSize: 12 }} align="left">Voted</TableCell>
+              <TableCell sx={{ fontSize: 12 }} align="left">Status</TableCell>
+              <TableCell sx={{ fontSize: 12 }} align="left">Results</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.title}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell sx={{ fontSize: 12 }} component="th" scope="row">
+                  {row.title}
+                </TableCell>
+                <TableCell sx={{ fontSize: 12 }} align="left">{row.voted}</TableCell>
+                <TableCell sx={{ fontSize: 12 }} align="left">{row.status}</TableCell>
+                <TableCell sx={{ fontSize: 12 }} align="left">{row.results.length}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
 
-      {itemsDisplayed.map((_item: any, index: number) => {
-        return (
-          <Link key={index} to="/">
-            <article className="relative border rounded-xl border-[#e6e9f0] overflow-hidden flex flex-col">
-              <div className="w-[100%]">
-                <img src="https://img-cdn.magiceden.dev/autoquality:size:512000:20:80/rs:fill:640:0:0/plain/https://media.cdn.magiceden.dev/launchpad/footies/ee09500b-06d2-4b19-a90a-578b3605ccc2" alt="nft1-icon" />
-              </div>
-              <div className="w-[100%] p-2 py-3">
-                <p className="text-[#fdefd8] text-[20px] font-bold">Footies</p>
-              </div>
-              <div className="p-2 w-[100%]">
-                <button onClick={() => { }} className="p-3 rounded-xl w-[10/12] text-[1.5rem] font-semibold bg-[#e53d75] btn btn-secondary">
-                  View
-                </button>
-              </div>
-            </article>
-          </Link>
-        )
-      })}
-    </section>
   );
 }

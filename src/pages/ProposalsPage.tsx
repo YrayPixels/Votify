@@ -1,12 +1,12 @@
-import MarketPlace from "../components/MarketPlace";
 import Navbar from "../components/Navbar";
+import Proposals from "../components/Proposals";
 
-export default function MarketPlacePage() {
+export default function ProposalsPage() {
   return (
     <>
       <div className="p-12 min-h-screen">
         <Navbar />
-        <MarketPlace />
+        <Proposals />
       </div>
       {/* <Navigation type={'home'} /> */}
     </>

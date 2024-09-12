@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 
-@font-face {
+/* @font-face {
   font-family: "Camar";
   src: local("Camar"),
     url('/Camar.otf')
-}
+} */
 
 html {
   font-size: 62.5%;
 }
 
 .camar-text {
-  font-family: 'Camar', 'sans-serif';
+  font-family: 'Serif', 'sans-serif';
 }
 
 .top-border-shadow::before {
