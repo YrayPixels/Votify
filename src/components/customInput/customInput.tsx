@@ -27,11 +27,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
             {label && <label htmlFor={name} className={`${labelDisable} font-normal `}>
                 {label}
             </label>}
-            <div className={`flex flex-row items-center justify-between border mt-3 ${color} p-2 rounded-lg w-full`}>
+            <div className={`flex flex-row items-center justify-between border border-[#73dca5] mt-3 ${color} p-2 rounded-lg w-full`}>
                 {addOnStart && addOnStart}
 
                 <input
-                    className="p-2 w-full border rounded-xl focus:outline-none text-[14px] bg-transparent "
+                    className="p-2 w-full rounded-xl focus:outline-none text-[14px] bg-transparent "
                     type={type}
                     name={name}
                     value={value}

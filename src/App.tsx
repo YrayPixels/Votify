@@ -1,8 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Homepage from "./pages/Homepage";
-import Checkout from "./pages/Checkout";
-import ItemInfos from "./pages/ItemInfos";
-import MyCart from "./pages/MyCart";
 import { useEffect, useRef, useState } from "react";
 import { isIframe } from "./canvas-adapter";
 import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
@@ -45,11 +42,7 @@ export default function App() {
         <CanvasWalletProvider>
           <Routes>
             <Route index element={<Homepage />} />
-            <Route path="market-place" element={<ProposalsPage />} />
-            <Route path="my-nfts" element={<Checkout />} />
-            <Route path="iteminfo" element={<ItemInfos />} />
-            <Route path="mycart" element={<MyCart />} />
-            <Route path="checkout" element={<Checkout />} />
+            <Route path="proposal-page" element={<ProposalsPage />} />
           </Routes>
         </CanvasWalletProvider>
       </BrowserRouter>
