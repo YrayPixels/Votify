@@ -11,12 +11,13 @@ import { useEffect, useState } from 'react';
 
 export default function ItemDisplay({ items }: any) {
   function createData(
+    id: string,
     title: string,
     description: string,
     status: string,
     results: number[],
   ) {
-    return { title, description, status, results };
+    return { id, title, description, status, results };
   }
   const [rows, setRows] = useState<any>([])
 
@@ -25,7 +26,7 @@ export default function ItemDisplay({ items }: any) {
     if (items.length > 0) {
       setRows([]);
       for (const item of items) {
-        let data = createData(item?.account.title, item?.account?.description, item?.account?.finished ? "Completed" : "Ongoing", item?.account.voteCounts)
+        let data = createData(item?.publicKey?.toBase58(), item?.account.title, item?.account?.description, item?.account?.finished ? "Completed" : "Ongoing", item?.account.voteCounts)
         setRows((prevRows) => [...prevRows, data])
       }
     }
@@ -57,7 +58,7 @@ export default function ItemDisplay({ items }: any) {
               >
                 <TableCell sx={{ fontSize: 12 }} component="th" scope="row">
 
-                  <Link to={`proposal-page`}>  {row.title} </Link>
+                  <Link to={`proposal-page?id=${row.id}`}>  {row.title} </Link>
                 </TableCell>
                 <TableCell sx={{ fontSize: 12 }} align="left">{row.description}</TableCell>
                 <TableCell sx={{ fontSize: 12 }} align="left">{row.status}</TableCell>

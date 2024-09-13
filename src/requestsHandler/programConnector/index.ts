@@ -1,5 +1,5 @@
 import { BN, Program } from "@project-serum/anchor"
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, Transaction } from "@solana/web3.js";
 
 
 export const fetchProposals = async (program: Program) => {
@@ -13,7 +13,40 @@ export const fetchProposals = async (program: Program) => {
     }
 }
 
-export const castVote = async () => {
+export const castVote = async (index: number, program: Program, user: string) => {
+
+
+    const userPubkey = new PublicKey(user)
+
+
+    const tx = new Transaction()
+
+    const [voterPDA, voterBump] = await PublicKey.findProgramAddress(
+        [userPubkey.toBuffer()],
+        program.programId
+    );
+    console.log(voterBump)
+    const regInstruction = await program.methods
+        .registerVoter()
+        .accounts({
+            dao: new PublicKey("8fEQu9YTUjMhNsYF7bGTn8WYdewhhrMSPQxyCbHmNkNJ"),
+            voter: voterPDA,
+            user: userPubkey,
+        }).instruction()
+
+    const votingtx = await program.methods
+        .vote(index)
+        .accounts({
+            proposal: new PublicKey(
+                "EotFxyFGaMgksbvwnBFfg28auuAzxrzsai1q1jBpNgNs"
+            ),
+            voter: voterPDA,
+            user: userPubkey,
+        }).instruction()
+
+    tx.add(regInstruction)
+    tx.add(votingtx)
+    return tx;
 
 }
 
