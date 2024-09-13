@@ -13,6 +13,31 @@ export const fetchProposals = async (program: Program) => {
     }
 }
 
+export const registerVoter = async (index: number, program: Program, user: string) => {
+
+
+    const userPubkey = new PublicKey(user)
+
+    const tx = new Transaction()
+
+    const [voterPDA, voterBump] = await PublicKey.findProgramAddress(
+        [userPubkey.toBuffer()],
+        program.programId
+    );
+    console.log(voterBump)
+    const regInstruction = await program.methods
+        .registerVoter()
+        .accounts({
+            dao: new PublicKey("8fEQu9YTUjMhNsYF7bGTn8WYdewhhrMSPQxyCbHmNkNJ"),
+            voter: voterPDA,
+            user: userPubkey,
+        }).instruction()
+
+    tx.add(regInstruction)
+    return tx;
+
+}
+
 export const castVote = async (index: number, program: Program, user: string) => {
 
 
@@ -26,6 +51,7 @@ export const castVote = async (index: number, program: Program, user: string) =>
         program.programId
     );
     console.log(voterBump)
+
     const regInstruction = await program.methods
         .registerVoter()
         .accounts({

@@ -41,6 +41,7 @@ export default function AiBot({ setStartAi }: any) {
     useEffect(() => {
         (async () => {
             let data = await scrapeProposal('https://www.jupresear.ch/t/jup-juice-work-group-jjwg-trial-proposal/22159');
+            console.log(data)
         })()
     }, [])
     function sendChat() {
