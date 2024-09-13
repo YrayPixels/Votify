@@ -3,12 +3,11 @@ import useCanvasWallet from "./CanvasWalletAdapter";
 import { Link } from "react-router-dom";
 import AiBot from "./AiBot/AiBot";
 import { AnchorProvider, Program } from "@project-serum/anchor";
-import { Connection, PublicKey } from "@solana/web3.js";
-import { RPC } from "../requestsHandler";
+import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { DaoVoting, IDL } from "../requestsHandler/DAO_IDL/dao_voting";
 import { castVote } from "../requestsHandler/programConnector";
 
-const connection = new Connection(RPC, 'confirmed');
+const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
 export default function Proposals() {
   const url = new URL(window.location.href);
