@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GA_KEY);
+
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_REACT_GA_KEY);
 
 export async function runGenAi(message: any) {
     // For text-only input, use the gemini-pro model
@@ -55,3 +56,41 @@ export const isJson = (str: any) => {
     }
     return true;
 }
+
+
+export async function scrapeProposal(url) {
+    try {
+        // Fetch the HTML of the webpage
+        const response = await fetch(url);
+        const data = await response.text();
+
+
+        console.log(data);
+        // Load the HTML into cheerio for parsing
+        // const $ = cheerio.load(data);
+
+        // // Define the data you want to extract
+        // const proposalTitle = $('h1').text().trim(); // Adjust selector based on structure
+        // const proposalContent = $('article').text().trim(); // Adjust based on actual HTML structure
+
+        // // You can extract other specific elements similarly by inspecting the page
+        // console.log('Title:', proposalTitle);
+        // console.log('Content:', proposalContent);
+
+        // // Return the extracted data
+        // return {
+        //     title: proposalTitle,
+        //     content: proposalContent,
+        // };
+    } catch (error) {
+        console.error('Error scraping the proposal:', error);
+    }
+}
+
+// URL of the page you want to scrape
+const url = 'https://www.jupresear.ch/t/jup-juice-work-group-jjwg-trial-proposal/22159';
+
+// Call the function to scrape the data
+scrapeProposal(url).then((data) => {
+    console.log(data);
+});

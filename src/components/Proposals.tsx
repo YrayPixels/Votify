@@ -1,12 +1,13 @@
-
 import { useEffect, useState } from "react";
 import useCanvasWallet from "./CanvasWalletAdapter";
-import PersonalItemDisplay from "./PersonalItemDisplay";
-import { fetchListings, fetchUserListings, getListedItem, } from "../requestsHandler/requestsItems";
-import { Helius } from "helius-sdk";
 import { Link } from "react-router-dom";
-import CustomInput from "./customInput/customInput";
 import AiBot from "./AiBot/AiBot";
+import { AnchorProvider, Program } from "@project-serum/anchor";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { RPC } from "../requestsHandler";
+import { DaoVoting, IDL } from "../requestsHandler/DAO_IDL/dao_voting";
+
+const connection = new Connection(RPC, 'confirmed');
 
 export default function Proposals() {
   const [notify, setNotify] = useState({
@@ -14,159 +15,31 @@ export default function Proposals() {
     type: ''
   })
 
-  const canvas = useCanvasWallet()
-  const walletAddress = localStorage.getItem('walletAddress') || canvas.walletAddress;
-
-  const shyft = canvas.marketSDK;
-
   const [startAi, setStartAi] = useState(false)
 
-
-  const [userNfts, setUserNfts] = useState<any>([]);
-  const [listings, setListings] = useState<any>([]);
-  const [showPersonalNFTs, setShowPersonalNFTs] = useState(false);
-  const [activeTabs, setActiveTabs] = useState('marketItems');
-  const [showItem, setShowItem] = useState(false);
-  const [selectedNft, setSelectedNft] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [startUnlist, setStartUnlist] = useState(false);
+
+  const [anchorProgram, setAnchorProgram] = useState<any>(null)
+
+  const wallet = useCanvasWallet()
+
+  useEffect(() => {
+    (async () => {
+      if (!wallet.walletAddress) {
+        await wallet.connectWallet();
+      }
+
+      const anchorProvider = new AnchorProvider(connection, wallet, {});
+      if (!anchorProvider) {
+        return;
+      }
+      const programId = new PublicKey("AvxgDjZnQSYYhMCu8fCcRG7NMevifPp4yC8y8KfjMYfy");
+      const program = new Program<DaoVoting>(IDL, programId, anchorProvider);
+      setAnchorProgram(program)
+    })()
+  }, [])
 
 
-  const { update } = useCanvasWallet()
-
-  const helius = new Helius(import.meta.env.VITE_REACT_HELIUS_API);
-
-
-  // useEffect(() => {
-  //   if (!walletAddress) {
-  //     setNotify({
-  //       message: 'Please connect your wallet to use application',
-  //       type: 'error',
-  //     })
-  //     setTimeout(() => {
-  //       setNotify({
-  //         message: '',
-  //         type: ''
-  //       })
-  //     }, 2000)
-  //     return;
-  //   }
-  // }, [walletAddress]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!walletAddress) {
-  //       let canvasItem = await canvas.connectWallet()
-  //       if (canvasItem) {
-  //         if (activeTabs == "marketItems") {
-  //           fetchMarketListings()
-  //         } else if (activeTabs == "personalItems") {
-  //           fetchPersonalListings()
-  //         }
-  //       }
-  //     } else {
-  //       if (activeTabs == "marketItems") {
-  //         fetchMarketListings()
-  //       } else if (activeTabs == "personalItems") {
-  //         fetchPersonalListings()
-  //       }
-  //     }
-  //   })()
-  // }, [activeTabs, update, walletAddress])
-
-  // const getUserNFTs = async () => {
-  //   setLoading(true)
-  //   if (!walletAddress) {
-  //     let canvasItem = await canvas.connectWallet()
-  //     if (canvasItem) {
-  //       const nfts = await shyft.nft.compressed.readAll({
-  //         walletAddress: walletAddress
-  //       })
-  //       let itemsLoaded =
-  //         await Promise.all(
-  //           nfts.map(async (item) => {
-  //             let response = await getListedItem(item?.mint)
-  //             if (response?.data?.status !== "success") {
-  //               return item;
-  //             }
-  //           })
-  //         )
-  //       itemsLoaded = itemsLoaded.filter(item => item !== undefined);
-  //       setUserNfts(itemsLoaded)
-
-  //       setLoading(false);
-  //       // setUserNfts(itemsLoaded);
-  //     }
-  //   } else {
-
-  //     const response = await helius.rpc.getAssetsByOwner({
-  //       ownerAddress: walletAddress,
-  //       page: 1,
-  //     });
-
-  //     //files
-  //     //links
-  //     //id
-  //     //metadata
-
-  //     let nfts = response.items
-  //     let itemsLoaded =
-  //       await Promise.all(
-  //         nfts.map(async (item) => {
-  //           let response = await getListedItem(item?.id)
-  //           if (response?.data?.status !== "success") {
-  //             return item;
-  //           }
-  //         })
-  //       )
-
-  //     itemsLoaded = itemsLoaded.filter(item => item !== undefined);
-  //     setUserNfts(itemsLoaded)
-  //     setLoading(false);
-  //   }
-
-
-  // }
-
-  // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  // const fetchMarketListings = async () => {
-  //   setLoading(true);
-  //   const getMarketListings = await fetchListings();
-
-  //   const items = [];
-  //   for (const item of getMarketListings.data) {
-  //     await delay(500); // Adjust the delay time (500ms in this example)
-  //     const downloaded = await helius.rpc.getAsset({ id: item.asset_mint })
-
-  //     const sentItem = { nftData: downloaded, marketplaceData: item };
-  //     items.push(sentItem);
-  //   }
-  //   setListings(items);
-
-  //   if (items.length == getMarketListings.data.length) {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // const fetchPersonalListings = async () => {
-  //   setLoading(true);
-  //   const getMarketListings = await fetchUserListings(walletAddress);
-  //   const items = [];
-  //   for (const item of getMarketListings.data) {
-  //     await delay(500); // Adjust the delay time (500ms in this example)
-
-  //     const downloaded = await helius.rpc.getAsset({ id: item.asset_mint })
-
-  //     const sentItem = { nftData: downloaded, marketplaceData: item };
-  //     items.push(sentItem);
-  //   }
-  //   setListings(items);
-  //   if (items.length == getMarketListings.data.length) {
-  //     setLoading(false);
-  //   }
-
-  // }
 
   return (
 

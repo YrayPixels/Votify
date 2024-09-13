@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomInput from "../customInput/customInput";
-import { isJson, runGenAi } from "../../requestsHandler/genAi";
+import { isJson, runGenAi, scrapeProposal } from "../../requestsHandler/genAi";
 import { Close } from "@mui/icons-material";
 import ChatBox from "./ChatBox";
 
@@ -37,6 +37,12 @@ export default function AiBot({ setStartAi }: any) {
         }
     }
 
+
+    useEffect(() => {
+        (async () => {
+            let data = await scrapeProposal('https://www.jupresear.ch/t/jup-juice-work-group-jjwg-trial-proposal/22159');
+        })()
+    }, [])
     function sendChat() {
 
         if (messageText.includes('clear') || messageText.includes('Clear')) {

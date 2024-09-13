@@ -9,30 +9,27 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
 
-export default function ItemDisplay() {
-
-  const [proposals, setProposals] = useState<any>(null);
-
-
-  useEffect(() => {
-
-  }, [])
+export default function ItemDisplay({ items }: any) {
   function createData(
     title: string,
-    voted: string,
+    description: string,
     status: string,
     results: number[],
   ) {
-    return { title, voted, status, results };
+    return { title, description, status, results };
   }
+  const [rows, setRows] = useState<any>([])
 
-  const rows = [
-    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
-    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
-    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
-    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
-    createData('Trial Budget: Jup & Juice WG (JJWG)', 'Yess', 'Completed', [10, 20, 30, 40]),
-  ];
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setRows([]);
+      for (const item of items) {
+        let data = createData(item?.account.title, item?.account?.description, item?.account?.finished ? "Completed" : "Ongoing", item?.account.voteCounts)
+        setRows((prevRows) => [...prevRows, data])
+      }
+    }
+  }, [items])
 
 
   return (
@@ -40,29 +37,29 @@ export default function ItemDisplay() {
     <div className='text-[14px] '>
       <div className='font-bold text-[14px] flex flex-row justify-between'>
         <p>Proposals</p>
-        <Link to={`/view-all`}>View all</Link>
+        {/* <Link to={`/view-all`}>View all</Link> */}
       </div>
       <TableContainer component={Paper} color="black" >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow >
               <TableCell sx={{ fontSize: 12 }}>Title</TableCell>
-              <TableCell sx={{ fontSize: 12 }} align="left">Voted</TableCell>
+              <TableCell sx={{ fontSize: 12 }} align="left">Description</TableCell>
               <TableCell sx={{ fontSize: 12 }} align="left">Status</TableCell>
               <TableCell sx={{ fontSize: 12 }} align="left">Results</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row, index) => (
               <TableRow
-                key={row.title}
+                key={row.title + index.toString()}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell sx={{ fontSize: 12 }} component="th" scope="row">
 
                   <Link to={`proposal-page`}>  {row.title} </Link>
                 </TableCell>
-                <TableCell sx={{ fontSize: 12 }} align="left">{row.voted}</TableCell>
+                <TableCell sx={{ fontSize: 12 }} align="left">{row.description}</TableCell>
                 <TableCell sx={{ fontSize: 12 }} align="left">{row.status}</TableCell>
                 <TableCell sx={{ fontSize: 12 }} align="left">{row.results.length}</TableCell>
               </TableRow>
