@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI('AIzaSyAVy15vZjoG64KDQItY-tbiz15WbMYfgXA');
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GA_KEY);
 
 export async function runGenAi(message: any) {
     // For text-only input, use the gemini-pro model
